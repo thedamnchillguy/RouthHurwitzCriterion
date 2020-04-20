@@ -1,14 +1,14 @@
 from math import ceil
 from math import floor
 
-def routh_hurwitz(coeff, ord = 0):
+def routh_hurwitz(coeff, ord = 0):                                    # Segment 1
 
     ord = len(coeff) - 1
     chareqn = ""
     j = 0;
     for i in range(ord, -1, -1):                                      # Forming the Characteristic Equation String
         if coeff[j] == 0:
-            j += 1;
+            j += 1; 
             if (i == 0):                                                # Cosmetic - removing the '+' from the string if the last coefficient is zero
                 chareqn = chareqn[:-3]
             continue
@@ -42,7 +42,7 @@ def routh_hurwitz(coeff, ord = 0):
 
     routhmatrix = [[0 for j in range(ceil((ord + 1) / 2))] for i in range(ord + 1)]
 
-    for i in range(0, ord + 1):                                         # Filling the first two rows of the Routh-Hurwitz Table
+    for i in range(0, ord + 1):                 # Segment 2  # Filling the first two rows of the Routh-Hurwitz Table
         if i % 2 == 0:
             routhmatrix[0][i // 2] = coeff[i]
         else:
@@ -63,19 +63,19 @@ def routh_hurwitz(coeff, ord = 0):
                 routhmatrix[i][j] = int(routhmatrix[i][j])
             
 
-        if routhmatrix[i] == [0 for k in range(0, col)]:                # Special Case 1 - when the entire zero is zero
+        if routhmatrix[i] == [0 for k in range(0, col)]:          # (Segment 3a)  # Special Case 1 - when the entire row is zero
             degree = (ord - i) + 1
             for j in range(0, col):
                 routhmatrix[i][j] = routhmatrix[i-1][j] * degree        # Instead of the simple differentiation, (d/dx) x^n = (nx) ^ (n - 1)
                 degree -= 2
             
 
-        elif routhmatrix[i][0] == 0:                                    # Special Case 2 - when the first term is zero
+        elif routhmatrix[i][0] == 0:                           # (Segment 3b)  # Special Case 2 - when the first term is zero
             routhmatrix[i][0] = 0.01
 
 
-    printrouth(routhmatrix, ord)    
-    checkrouth(routhmatrix, ord)
+    printrouth(routhmatrix, ord)                               # (Segment 4)
+    checkrouth(routhmatrix, ord)                               # (Segment 5)
 
     
 def printrouth(rmat, orde):
@@ -121,9 +121,7 @@ if __name__=="__main__":
 '''
 Now, enter the coefficients of the characteristic equation starting with the coefficient of the highest degree term.
 Take for an instance a fifth-order system, As^5 + Bs^4 + Cs^3 + Ds^2 + Es^1 + F where A, B, C, D, E and F are the coefficients.
-
 Type each coefficient and press Enter. Remember, for any non - existing term (say if s^3 is missing) enter 0 as its coefficient.
-
 ''')
     coefficients = []
     for i in range(0, order + 1):
@@ -135,12 +133,3 @@ Type each coefficient and press Enter. Remember, for any non - existing term (sa
         if input("Do you wanna quit?\n") == 'quit' or 'exit' or 'bye':
             break
         print("I will ask you again.")
-
-    
-
-
-      
-    
-    
-    
-    
